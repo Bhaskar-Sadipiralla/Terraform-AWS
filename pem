@@ -1,0 +1,13 @@
+alb.tf
+bas.tf
+jenki
+jenkins.tf
+main.tf
+rds.tf
+sg.tf
+terraform.tfstate
+terraform.tfstate.backup
+tomcat_install.sh
+tomcat.tf
+variable.tf
+vpc.tf
