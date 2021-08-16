@@ -3,7 +3,7 @@ resource "aws_lb" "testing" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb-security-group.id]
-  subnets            = ["${aws_subnet.public-subnet-1.id}", "${aws_subnet.public-subnet-2.id}"]
+  subnets            = ["${aws_subnet.public-subnets[0].id}", "${aws_subnet.public-subnets[1].id}"]
 
   enable_deletion_protection = true
 
@@ -27,7 +27,7 @@ resource "aws_lb_target_group" "testing" {
 
 resource "aws_lb_target_group_attachment" "testing" {
   target_group_arn = aws_lb_target_group.testing.arn
-  target_id        = aws_instance.jenkins.id
+  target_id        = aws_instance.jenkins-stg.id
   port             = 8080
 }
 

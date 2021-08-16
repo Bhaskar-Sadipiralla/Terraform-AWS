@@ -10,7 +10,7 @@ resource "aws_security_group" "bastion-security-roup" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["${var.ssh-location}"]
+    cidr_blocks = "${var.ssh-location}"
 
   }
 
@@ -130,7 +130,7 @@ resource "aws_security_group" "rds-security-group" {
 
 resource "aws_security_group" "tomcat-security-group" {
   name        = "tomcat Security Group"
-  description = "Enable Http/Https access on port 80/443 vis ALB and ssh access on 22 port vis Bastion"
+  description = "Enable Http/Https access on port 80/443 via ALB and ssh access on 22 port via Bastion"
   vpc_id      = aws_vpc.terraform-vpc.id
   ingress {
     description     = "HTTP access"

@@ -1,41 +1,13 @@
 
-resource "aws_db_subnet_group" "db-subnet" {
-  name = "db-sbnet"
+resource "aws_db_subnet_group" "db-subnet-stg" {
+  name = "db-subnet"
   # vpc_id      = "aws_vpc.terraform-vpc.id"
-  subnet_ids = [aws_subnet.private-subnet-3.id, aws_subnet.private-subnet-4.id]
+  subnet_ids = [aws_subnet.data-subnets[0].id, aws_subnet.data-subnets[1].id]
   # availability_zone       = ["${ap-south-1a}","${ap-south-1b}"]
   tags = {
     Name = "My DB subnet group"
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -52,8 +24,8 @@ resource "aws_db_instance" "my-test-sql" {
   apply_immediately       = "true"
   backup_retention_period = 10
   backup_window           = "09:46-10:16"
-  db_subnet_group_name    = "${aws_db_subnet_group.db-subnet.name}"
-  vpc_security_group_ids  = ["${aws_security_group.rds-security-group.id}"]
+  db_subnet_group_name    = "${aws_db_subnet_group.db-subnet-stg.id}"
+  vpc_security_group_ids  = [aws_security_group.rds-security-group.id]
 
 
 

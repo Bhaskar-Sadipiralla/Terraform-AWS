@@ -2,9 +2,9 @@
 resource "aws_instance" "apache" {
 ami = "ami-00bf4ae5a7909786c"
 instance_type = "t2.micro" 
-subnet_id = aws_subnet.public-subnet-1.id
+subnet_id     = aws_subnet.public-subnets[0].id
 security_groups = ["${aws_security_group.apache2-security-group.id}"]
-key_name = "${aws_key_pair.petclinic.id}"
+key_name = "${aws_key_pair.tfm-key.id}"
 tags = {
     Name = "apache"
   }

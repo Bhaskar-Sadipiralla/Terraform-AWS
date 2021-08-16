@@ -16,3 +16,6 @@ variable "data-subnets" {
 }
 variable "azs"{
 }
+variable "ssh-location" {
+
+}

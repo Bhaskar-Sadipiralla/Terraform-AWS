@@ -1,9 +1,9 @@
-resource "aws_lb" "test" {
-  name               = "test-lb-tf"
+resource "aws_lb" "alb-stg" {
+  name               = "alb-stg"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb-security-group.id]
-  subnets            = ["${aws_subnet.public-subnet-1.id}", "${aws_subnet.public-subnet-2.id}"]
+  subnets            = ["${aws_subnet.public-subnets[0].id}", "${aws_subnet.public-subnets[1].id}"]
 
   enable_deletion_protection = true
 
@@ -16,8 +16,8 @@ resource "aws_lb" "test" {
 
 # instance target group
 
-resource "aws_lb_target_group" "test" {
-  name     = "test-lb-tg"
+resource "aws_lb_target_group" "testalb-stg-tg" {
+  name     = "alb-stg-tg"
   port     = 8080
   protocol = "HTTP"
   vpc_id   = aws_vpc.terraform-vpc.id
@@ -25,8 +25,8 @@ resource "aws_lb_target_group" "test" {
 
 
 
-resource "aws_lb_target_group_attachment" "test" {
-  target_group_arn = aws_lb_target_group.test.arn
+resource "aws_lb_target_group_attachment" "alb-stg" {
+  target_group_arn = aws_lb_target_group.testalb-stg-tg.arn
   target_id        = aws_instance.tomcat.id
   port             = 8080
 }
@@ -39,14 +39,14 @@ resource "aws_lb_target_group_attachment" "test" {
 
 
 resource "aws_lb_listener" "front_end" {
-  load_balancer_arn = aws_lb.test.arn
+  load_balancer_arn = aws_lb.alb-stg.arn
   port              = "80"
   protocol          = "HTTP"
 
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.test.arn
+    target_group_arn = aws_lb_target_group.testalb-stg-tg.arn
   }
 }
 
